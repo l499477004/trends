@@ -3,7 +3,7 @@ name: Fetch and Commit
 on:
   workflow_dispatch:  # 允许手动触发工作流
   schedule:
-    - cron: '0 * * * *' # 每小时运行一次，调整为你的需要
+    - cron: '0 9 * * *' # 每小时运行一次，调整为你的需要
 
 jobs:
   fetch:
