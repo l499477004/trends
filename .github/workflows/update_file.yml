@@ -19,7 +19,9 @@ jobs:
       - name: Fetch website content
         id: fetch_content
         run: |
-          content=$(curl -s https://example.com) # 替换为你的目标网址
+          # 获取前一天的日期，格式为 YYYYMMDD
+          yesterday=$(date -d "yesterday" +%Y%m%d)
+          content=$(curl -s "https://trends.google.com/trends/api/dailytrends?geo=US&hl=en&ed=${yesterday}&ns=15")
           echo "${content}" > content.txt
           echo "::set-output name=content::${content}"
 
