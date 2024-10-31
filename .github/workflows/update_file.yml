@@ -22,14 +22,15 @@ jobs:
           # 获取前一天的日期，格式为 YYYYMMDD
           yesterday=$(date -d "yesterday" +%Y%m%d)
           content=$(curl -s "https://trends.google.com/trends/api/dailytrends?geo=US&hl=en&ed=${yesterday}&ns=15")
-          echo "${content}" > content_${yesterday}.txt
-          echo "::set-output name=content::${content}"
+          filename="content_${yesterday}.txt"
+          echo "${content}" > $filename
+          echo "::set-output name=filename::$filename"  # 设置输出变量为文件名
 
       - name: Commit and push changes
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add content_${{ steps.fetch_content.outputs.content }}.txt
+          git add ${{ steps.fetch_content.outputs.filename }}
           git commit -m "Update content from website for date ${yesterday}"
           git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/l499477004/trends.git HEAD:main
         env:
