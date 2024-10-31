@@ -35,3 +35,7 @@ jobs:
           git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/l499477004/trends.git HEAD:main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # 自动使用 GitHub 提供的 token
+    
+      - name: Clean up old files
+        run: |
+          find . -name 'content_*.txt' -type f -mtime +15 -exec rm {} \;
