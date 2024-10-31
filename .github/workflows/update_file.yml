@@ -31,6 +31,6 @@ jobs:
           git config --local user.name "GitHub Action"
           git add content.txt
           git commit -m "Update content from website"
-          git push
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/l499477004/trends.git HEAD:main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # 自动使用 GitHub 提供的 token
