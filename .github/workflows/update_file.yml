@@ -1,0 +1,33 @@
+name: Fetch and Commit
+
+on:
+  schedule:
+    - cron: '0 * * * *' # 每小时运行一次，调整为你的需要
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install curl
+        run: sudo apt-get install curl
+
+      - name: Fetch website content
+        id: fetch_content
+        run: |
+          content=$(curl -s https://example.com) # 替换为你的目标网址
+          echo "${content}" > content.txt
+          echo "::set-output name=content::${content}"
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add content.txt
+          git commit -m "Update content from website"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # 自动使用 GitHub 提供的 token
